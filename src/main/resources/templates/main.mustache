@@ -1,4 +1,21 @@
 <html>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
 <body>
     <div>
         <form action="/logout" method="post">
@@ -6,18 +23,18 @@
             <input type="submit" value="Sing Out">
         </form>
     </div>
-    <div>
-        <form method="post">
-            <input type="text" name="name" placeholder="Enter name"/>
-            <input type="text" name="state" placeholder="Enter state"/>
-            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
-            <button type="submit">Add</button>
-        </form>
-    </div>
     <div>User list</div>
+    <table>
+        <tr>
+            <th>State</th>
+            <th>User</th>
+        </tr>
     {{#users}}
-      <b>{{name}}</b>
-      <i>{{state}}</i>
+        <tr>
+            <th>{{state}}</th>
+            <th>{{username}}</th>
+        </tr>
     {{/users}}
+    </table>
 </body>
 </html>

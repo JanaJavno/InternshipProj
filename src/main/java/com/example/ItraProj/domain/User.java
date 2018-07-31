@@ -1,44 +1,75 @@
 package com.example.ItraProj.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity // This tells Hibernate to make a table out of this class
-public class User {
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
+
+@Entity
+@Table
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
-    private String name;
+    private String username;
 
     private String email;
 
-    private String state;
+    private boolean state;
 
+    private String password;
+
+    private String activationCode;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
     public User() {
     }
 
-    public User(String name, String state) {
-        this.name = name;
+    public User(String username, boolean state) {
+        this.username = username;
         this.state = state;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isState();
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -49,11 +80,44 @@ public class User {
         this.email = email;
     }
 
-    public String getState() {
+    public boolean getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(boolean state) {
         this.state = state;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }
