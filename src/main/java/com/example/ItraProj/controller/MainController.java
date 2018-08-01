@@ -25,19 +25,7 @@ public class MainController {
     @GetMapping("/main")
     public String main(Map<String, Object> model){
         Iterable<User> users = userRepo.findAll();
-
         model.put("users", users);
-
         return "main";
     }
-
-    /*@PostMapping("/main")
-    public String post(@RequestParam String name,
-                       @RequestParam boolean state, Map<String, Object> model){
-        User user = new User(name, state);
-        userRepo.save(user);
-        Iterable<User> users = userRepo.findAll();
-        model.put("users", users);
-        return "main";
-    }*/
 }
