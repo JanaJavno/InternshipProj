@@ -6,6 +6,7 @@ import com.example.ItraProj.repository.UserRegistrRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Collections;
@@ -28,10 +29,14 @@ public class RegistrationController {
             model.put("message", "User exists!");
             return "registration";
         }
-
         user.setState(true);
         user.setRoles(Collections.singleton(Role.USER));
         userRegistrRepo.save(user);
         return "redirect:/login";
+    }
+
+    @GetMapping("/delete/{id}")
+    public void delete (@PathVariable(value = "id") Long id){
+        userRegistrRepo.deleteById(id);
     }
 }

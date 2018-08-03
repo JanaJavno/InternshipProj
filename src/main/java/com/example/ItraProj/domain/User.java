@@ -120,4 +120,12 @@ public class User implements UserDetails {
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
     }
+
+    public String strState(){
+        String result;
+        if (state){
+            return "unblock";
+        }
+        else return "block";
+    }
 }
